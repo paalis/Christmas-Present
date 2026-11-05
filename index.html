@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Din julebillett</title>
+<meta name="theme-color" content="#0c1f19">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<!-- 1. KONVOLUTT -->
+<section id="intro" class="screen active">
+  <p class="eyebrow">Et spesielt julebrev</p>
+  <button class="envelope" id="openBtn" aria-label="Åpne konvolutten">
+    <span class="env-back"></span>
+    <span class="env-letter">
+      <span class="mono small">BILLETT Nº 2412</span>
+      <span class="letter-lines"></span>
+    </span>
+    <span class="env-front">
+      <span class="env-to">
+        <span class="mono small">TIL</span>
+        <span class="to-name" data-fill="til"></span>
+      </span>
+    </span>
+    <span class="env-flap"></span>
+    <span class="seal">✶</span>
+  </button>
+  <p class="hint">Trykk for å bryte seglet</p>
+</section>
+
+<!-- 2. HILSEN + BILLETT + KALENDER -->
+<section id="pick" class="screen">
+  <p class="greeting" id="greeting"></p>
+
+  <article class="ticket">
+    <div class="ticket-main">
+      <header class="ticket-head">
+        <span class="mono">JULEEKSPRESSEN</span>
+        <span class="mono">GYLDIG FOR 2</span>
+      </header>
+      <div class="route">
+        <div>
+          <span class="label">Fra</span>
+          <span class="big">Hjemme</span>
+        </div>
+        <span class="plane" aria-hidden="true">✈</span>
+        <div class="right">
+          <span class="label">Til</span>
+          <span class="big mystery">? ? ?</span>
+        </div>
+      </div>
+      <p class="clue"><span class="label">Hint</span> <span data-fill="destinasjonHint"></span></p>
+      <div class="fields">
+        <div><span class="label">Passasjerer</span><span class="val"><span data-fill="til"></span> &amp; <span data-fill="fra"></span></span></div>
+        <div><span class="label">Avreise</span><span class="val" id="tDep">Du velger ↓</span></div>
+        <div><span class="label">Hjemreise</span><span class="val" id="tRet">—</span></div>
+        <div><span class="label">Klasse</span><span class="val">Overraskelse</span></div>
+      </div>
+    </div>
+    <div class="ticket-stub" aria-hidden="true">
+      <span class="mono vert">ADMIT TWO · ADMIT TWO</span>
+      <span class="barcode"></span>
+    </div>
+  </article>
+
+  <div class="card cal-card">
+    <h2 id="calTitle">Når passer det for deg?</h2>
+    <p class="sub" id="calSub"></p>
+    <div class="cal-nav">
+      <button class="icon" id="prev" aria-label="Forrige måned">‹</button>
+      <span id="monthLabel"></span>
+      <button class="icon" id="next" aria-label="Neste måned">›</button>
+    </div>
+    <div class="cal-grid dow" aria-hidden="true">
+      <span>ma</span><span>ti</span><span>on</span><span>to</span><span>fr</span><span>lø</span><span>sø</span>
+    </div>
+    <div class="cal-grid" id="days" role="grid"></div>
+    <p class="selection" id="selText" aria-live="polite">Ingen dato valgt ennå</p>
+    <label class="note">
+      <span class="label">Hilsen eller ønske (valgfritt)</span>
+      <textarea id="comment" rows="2" placeholder="F.eks. «Helst ikke tidlig fly 😴»"></textarea>
+    </label>
+    <button class="primary" id="confirm" disabled>Stemple billetten</button>
+  </div>
+</section>
+
+<!-- 3. BEKREFTET -->
+<section id="done" class="screen">
+  <article class="ticket final">
+    <div class="ticket-main">
+      <header class="ticket-head">
+        <span class="mono">JULEEKSPRESSEN</span>
+        <span class="mono">BOARDING PASS</span>
+      </header>
+      <div class="route">
+        <div>
+          <span class="label">Fra</span>
+          <span class="big">Hjemme</span>
+        </div>
+        <span class="plane" aria-hidden="true">✈</span>
+        <div class="right">
+          <span class="label">Til</span>
+          <span class="big mystery">? ? ?</span>
+        </div>
+      </div>
+      <div class="fields">
+        <div class="wide"><span class="label">Avreise</span><span class="val" id="fDep"></span></div>
+        <div class="wide"><span class="label">Hjemreise</span><span class="val" id="fRet"></span></div>
+      </div>
+      <p class="clue" id="fComment" hidden></p>
+      <div class="stamp" aria-hidden="true">BEKREFTET<small>✶ GOD JUL ✶</small></div>
+    </div>
+    <div class="ticket-stub" aria-hidden="true">
+      <span class="mono vert">ADMIT TWO · ADMIT TWO</span>
+      <span class="barcode"></span>
+    </div>
+  </article>
+
+  <div class="card">
+    <h2>Send svaret ditt</h2>
+    <p class="sub" id="sendSub">Så kan reisen bestilles 🎄</p>
+    <p class="status" id="status" aria-live="polite"></p>
+    <div class="actions" id="actions"></div>
+    <button class="link" id="change">Endre dato</button>
+  </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
