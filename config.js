@@ -3,7 +3,7 @@
    ========================================================= */
 window.TUR = {
   // Hvem gaven er til / fra
-  til: "Kjæresten min",
+  til: "Ingrid",
   fra: "Meg",
 
   // Hilsen som vises når konvolutten åpnes (\n = ny linje)
@@ -14,17 +14,20 @@ window.TUR = {
 
   // Antall netter turen varer. Sett til null hvis hun skal velge både
   // avreise og hjemreise fritt (da gjelder minNetter/maksNetter).
-  netter: 3,
-  minNetter: 2,
-  maksNetter: 5,
+  netter: null,
+  minNetter: 3,   // torsdag → søndag
+  maksNetter: 4,  // torsdag → mandag
 
   // Tidsrommet hun kan velge innenfor (ÅÅÅÅ-MM-DD)
-  tidligsteDato: "2027-01-08",
+  tidligsteDato: "2027-01-07",   // ⚠️ juster når dere vet mer
   senesteDato: "2027-06-30",
 
   // Hvilke ukedager turen kan starte på. 0=søn, 1=man … 5=fre, 6=lør.
   // null = alle dager. Eksempel: [4, 5] = torsdag eller fredag.
-  avreisedager: null,
+  avreisedager: [4],   // torsdag kveld
+
+  // Teksten over kalenderen (la stå tom for standardtekst)
+  kalenderTekst: "Velg en torsdag – vi drar på kvelden. Trykk så på søndag eller mandag for hjemreise.",
 
   // Datoer som IKKE går (enkeltdager eller perioder "fra/til")
   utilgjengelig: [
@@ -35,7 +38,8 @@ window.TUR = {
   // Hvordan svaret kommer fram til deg (fyll inn det du vil bruke):
   telefon: "",        // f.eks. "+4799999999" → knapp for å sende SMS
   epost: "",          // f.eks. "deg@eksempel.no" → knapp for å sende e-post
-  formspree: "",      // valgfritt: "https://formspree.io/f/xxxxxxx" → du får svaret automatisk på e-post
+  formspree: "",     // valgfritt: "https://formspree.io/f/xxxxxxx" → du får svaret automatisk på e-post
+  ntfy: "julebillett-2f0bd5e90389", // push-varsel rett på mobilen din (se README)
 
   // Adressen siden ligger på (brukes til QR-koden i qr.html).
   // La stå tom for å bruke adressen qr.html åpnes fra.

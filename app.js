@@ -35,9 +35,9 @@
   /* ---------- fyll inn tekst fra config ---------- */
   document.querySelectorAll("[data-fill]").forEach((el) => { el.textContent = C[el.dataset.fill] || ""; });
   $("#greeting").textContent = C.hilsen || "God jul!";
-  $("#calSub").textContent = fixed
+  $("#calSub").textContent = C.kalenderTekst || (fixed
     ? `Trykk på dagen vi skal reise. Turen varer i ${fixed} ${fixed === 1 ? "natt" : "netter"}.`
-    : `Trykk på avreisedag, og deretter hjemreisedag (${minN}–${maxN} netter).`;
+    : `Trykk på avreisedag, og deretter hjemreisedag (${minN}–${maxN} netter).`);
 
   /* ---------- skjermer ---------- */
   const show = (id) => {
@@ -193,17 +193,28 @@
 
     const status = $("#status");
     status.textContent = "";
-    if (C.formspree && !fromStore) {
-      status.textContent = "Sender til nissen …";
-      fetch(C.formspree, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ avreise: iso(sel[0]), hjemreise: iso(sel[1]), hilsen: comment, melding: msg }),
-      })
-        .then((r) => { if (!r.ok) throw 0; status.textContent = "✓ Svaret er levert til nissen! Du trenger ikke gjøre mer."; $("#sendSub").textContent = "Vil du si det selv også?"; })
-        .catch(() => { status.textContent = "Klarte ikke sende automatisk – bruk en knapp under."; });
-    } else if (C.formspree && fromStore) {
+    const sends = [];
+    if (C.formspree) sends.push(() => fetch(C.formspree, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ avreise: iso(sel[0]), hjemreise: iso(sel[1]), hilsen: comment, melding: msg }),
+    }));
+    if (C.ntfy) sends.push(() => fetch(`https://ntfy.sh/${encodeURIComponent(C.ntfy)}`, {
+      method: "POST",
+      headers: { Title: "Julebilletten er stemplet!", Tags: "christmas_tree,airplane", Priority: "high" },
+      body: msg,
+    }));
+    if (sends.length && fromStore) {
       status.textContent = "✓ Svaret ditt er allerede levert.";
+    } else if (sends.length) {
+      status.textContent = "Sender til nissen …";
+      Promise.allSettled(sends.map((f) => f().then((r) => { if (!r.ok) throw 0; })))
+        .then((res) => {
+          if (res.some((r) => r.status === "fulfilled")) {
+            status.textContent = "✓ Svaret er levert til nissen! Du trenger ikke gjøre mer.";
+            $("#sendSub").textContent = "Vil du si det selv også?";
+          } else status.textContent = "Klarte ikke sende automatisk – bruk en knapp under.";
+        });
     }
     show("done");
   }

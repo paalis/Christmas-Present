@@ -22,6 +22,9 @@ stemples billetten, og svaret sendes til deg.
 
 ### Hvordan får du svaret?
 
+- `ntfy` (anbefalt) → push-varsel rett på mobilen i det hun stempler billetten. Installer
+  appen **ntfy** (App Store / Google Play, gratis, ingen konto), trykk «+» og abonner på
+  navnet som står i `config.js` (`julebillett-…`). Hold navnet hemmelig.
 - `telefon` → knapp som åpner SMS til deg med datoene ferdig utfylt
 - `epost` → knapp som åpner e-post til deg
 - `formspree` (anbefalt i tillegg) → opprett et gratis skjema på <https://formspree.io>, lim inn
