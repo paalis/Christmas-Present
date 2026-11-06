@@ -248,27 +248,4 @@
     }
   } catch {}
 
-  /* ---------- snø ---------- */
-  const cv = $("#snow"), ctx = cv.getContext("2d");
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let flakes = [];
-  const resize = () => {
-    cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
-    const n = Math.min(140, Math.round(innerWidth / 6));
-    flakes = Array.from({ length: n }, () => ({
-      x: Math.random() * cv.width, y: Math.random() * cv.height,
-      r: (Math.random() * 2.2 + .6) * devicePixelRatio, s: Math.random() * .6 + .3, w: Math.random() * Math.PI * 2,
-    }));
-  };
-  resize(); addEventListener("resize", resize);
-  (function tick() {
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.fillStyle = "rgba(255,255,255,.75)";
-    for (const f of flakes) {
-      f.y += f.s * devicePixelRatio; f.w += .01; f.x += Math.sin(f.w) * .4 * devicePixelRatio;
-      if (f.y > cv.height) { f.y = -5; f.x = Math.random() * cv.width; }
-      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2); ctx.fill();
-    }
-    requestAnimationFrame(tick);
-  })();
 })();
