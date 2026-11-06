@@ -36,8 +36,8 @@
   document.querySelectorAll("[data-fill]").forEach((el) => { el.textContent = C[el.dataset.fill] || ""; });
   $("#greeting").textContent = C.hilsen || "Hei!";
   $("#calSub").textContent = C.kalenderTekst || (fixed
-    ? `Trykk på dagen vi skal reise. Turen varer i ${fixed} ${fixed === 1 ? "natt" : "netter"}.`
-    : `Trykk på avreisedag, og deretter hjemreisedag (${minN}–${maxN} netter).`);
+    ? `Trykk på første dag. Perioden er ${fixed + 1} dager.`
+    : `Trykk på første dag, og deretter siste dag.`);
 
   /* ---------- skjermer ---------- */
   const show = (id) => {
@@ -117,9 +117,9 @@
     $("#confirm").disabled = !sel;
     if (sel) {
       const n = diffDays(sel[0], sel[1]);
-      $("#selText").textContent = `${fmtShort(sel[0])} → ${fmtShort(sel[1])} · ${n} ${n === 1 ? "natt" : "netter"} ✨`;
+      $("#selText").textContent = `${fmtShort(sel[0])} → ${fmtShort(sel[1])} ✨`;
     } else if (start) {
-      $("#selText").textContent = "Velg hjemreisedag …";
+      $("#selText").textContent = "Velg siste dag …";
     } else {
       $("#selText").textContent = "Ingen dato valgt ennå";
     }
@@ -163,7 +163,7 @@
   /* ---------- bekreft + send ---------- */
   function message(sel, comment) {
     const n = diffDays(sel[0], sel[1]);
-    let msg = `✈️ Datoene er valgt${isSug(sel) ? " (forslaget ditt passer!)" : ""}\nAvreise: ${fmt(sel[0])}\nHjemreise: ${fmt(sel[1])} (${n} netter)`;
+    let msg = `📅 Datoene er holdt av${isSug(sel) ? " (forslaget ditt passer!)" : ""}\nFra: ${fmt(sel[0])}\nTil: ${fmt(sel[1])}`;
     if (comment) msg += `\n\n«${comment}»`;
     return msg;
   }
@@ -187,7 +187,7 @@
       return el;
     };
     if (C.telefon) add("💬 Send som SMS", { href: `sms:${C.telefon}?&body=${encodeURIComponent(msg)}` });
-    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Datoene til turen ✈️")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
+    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Datoene er holdt av 📅")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
     if (navigator.share) add("📤 Del svaret", { onclick: () => navigator.share({ text: msg }).catch(() => {}) }, true);
     else if (!C.telefon && !C.epost) add("📋 Kopier svaret", {
       onclick: (e) => navigator.clipboard.writeText(msg).then(() => { e.currentTarget.textContent = "Kopiert ✓"; }),
@@ -199,7 +199,7 @@
     if (C.formspree) sends.push(() => fetch(C.formspree, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ avreise: iso(sel[0]), hjemreise: iso(sel[1]), hilsen: comment, melding: msg }),
+      body: JSON.stringify({ fra: iso(sel[0]), til: iso(sel[1]), hilsen: comment, melding: msg }),
     }));
     if (C.ntfy) sends.push(() => fetch(`https://ntfy.sh/${encodeURIComponent(C.ntfy)}`, {
       method: "POST",
