@@ -7,7 +7,7 @@ window.TUR = {
   fra: "Meg",
 
   // Hilsen som vises når konvolutten åpnes (\n = ny linje)
-  hilsen: "God jul, kjære deg!\nI år får du ikke en pakke – du får en reise.\nHvor vi skal? Det er en overraskelse.\nMen NÅR vi skal, får du bestemme selv.",
+  hilsen: "Hei Ingrid!\nJeg planlegger en overraskelse til oss.\nHvor vi skal er hemmelig – men du får bestemme når.\nVelg helgen som passer deg best.",
 
   // Destinasjonen holdes hemmelig. Hint vises på billetten.
   destinasjonHint: "Et sted med god mat og lange kvelder",

@@ -34,7 +34,7 @@
 
   /* ---------- fyll inn tekst fra config ---------- */
   document.querySelectorAll("[data-fill]").forEach((el) => { el.textContent = C[el.dataset.fill] || ""; });
-  $("#greeting").textContent = C.hilsen || "God jul!";
+  $("#greeting").textContent = C.hilsen || "Hei!";
   $("#calSub").textContent = C.kalenderTekst || (fixed
     ? `Trykk på dagen vi skal reise. Turen varer i ${fixed} ${fixed === 1 ? "natt" : "netter"}.`
     : `Trykk på avreisedag, og deretter hjemreisedag (${minN}–${maxN} netter).`);
@@ -161,7 +161,7 @@
   /* ---------- bekreft + send ---------- */
   function message(sel, comment) {
     const n = diffDays(sel[0], sel[1]);
-    let msg = `🎄 Billetten er stemplet!\nAvreise: ${fmt(sel[0])}\nHjemreise: ${fmt(sel[1])} (${n} netter)`;
+    let msg = `✈️ Billetten er stemplet!\nAvreise: ${fmt(sel[0])}\nHjemreise: ${fmt(sel[1])} (${n} netter)`;
     if (comment) msg += `\n\n«${comment}»`;
     return msg;
   }
@@ -185,7 +185,7 @@
       return el;
     };
     if (C.telefon) add("💬 Send som SMS", { href: `sms:${C.telefon}?&body=${encodeURIComponent(msg)}` });
-    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Julebilletten er stemplet 🎄")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
+    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Billetten er stemplet ✈️")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
     if (navigator.share) add("📤 Del svaret", { onclick: () => navigator.share({ text: msg }).catch(() => {}) }, true);
     else if (!C.telefon && !C.epost) add("📋 Kopier svaret", {
       onclick: (e) => navigator.clipboard.writeText(msg).then(() => { e.currentTarget.textContent = "Kopiert ✓"; }),
@@ -201,17 +201,17 @@
     }));
     if (C.ntfy) sends.push(() => fetch(`https://ntfy.sh/${encodeURIComponent(C.ntfy)}`, {
       method: "POST",
-      headers: { Title: "Julebilletten er stemplet!", Tags: "christmas_tree,airplane", Priority: "high" },
+      headers: { Title: "Billetten er stemplet!", Tags: "airplane,tada", Priority: "high" },
       body: msg,
     }));
     if (sends.length && fromStore) {
       status.textContent = "✓ Svaret ditt er allerede levert.";
     } else if (sends.length) {
-      status.textContent = "Sender til nissen …";
+      status.textContent = "Sender …";
       Promise.allSettled(sends.map((f) => f().then((r) => { if (!r.ok) throw 0; })))
         .then((res) => {
           if (res.some((r) => r.status === "fulfilled")) {
-            status.textContent = "✓ Svaret er levert til nissen! Du trenger ikke gjøre mer.";
+            status.textContent = "✓ Svaret er levert! Du trenger ikke gjøre mer.";
             $("#sendSub").textContent = "Vil du si det selv også?";
           } else status.textContent = "Klarte ikke sende automatisk – bruk en knapp under.";
         });
