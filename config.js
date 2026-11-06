@@ -7,7 +7,7 @@ window.TUR = {
   fra: "Meg",
 
   // Hilsen som vises når konvolutten åpnes (\n = ny linje)
-  hilsen: "Hei Ingrid!\nJeg planlegger en overraskelse til oss.\nHvor vi skal er hemmelig – men du får bestemme når.\nVelg helgen som passer deg best.",
+  hilsen: "Hei Ingrid!\nJeg planlegger en liten tur for oss to.\nHvor er en overraskelse – men når passer det for deg?",
 
   // Destinasjonen holdes hemmelig. Hint vises på billetten.
   destinasjonHint: "Et sted med god mat og lange kvelder",
@@ -28,6 +28,9 @@ window.TUR = {
 
   // Teksten over kalenderen (la stå tom for standardtekst)
   kalenderTekst: "Velg en torsdag – vi drar på kvelden. Trykk så på søndag eller mandag for hjemreise.",
+
+  // Forslag som vises øverst (avreise, hjemreise). Sett til null for å skjule.
+  forslag: ["2027-01-21", "2027-01-24"],
 
   // Datoer som IKKE går (enkeltdager eller perioder "fra/til")
   utilgjengelig: [

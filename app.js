@@ -45,14 +45,12 @@
     window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   };
 
-  $("#openBtn").addEventListener("click", (e) => {
-    e.currentTarget.classList.add("open");
-    setTimeout(() => show("pick"), 1500);
-  });
 
   /* ---------- kalender ---------- */
   let start = null, end = null, hover = null;
-  let view = new Date(min.getFullYear(), min.getMonth(), 1);
+  const sug = Array.isArray(C.forslag) && C.forslag.length === 2 ? C.forslag.map(parse) : null;
+  const first = sug ? sug[0] : min;
+  let view = new Date(first.getFullYear(), first.getMonth(), 1);
   const daysEl = $("#days");
 
   function rangeFor(s, e) {
@@ -101,6 +99,7 @@
         if (+d === +r[0]) btn.classList.add("start");
         if (+d === +r[1]) btn.classList.add("end");
       };
+      if (sug && d >= sug[0] && d <= sug[1]) btn.classList.add("sug");
       if (sel) mark(sel, "in");
       else if (start && +d === +start) btn.classList.add("start", "end");
       if (!sel || prev) mark(prev, prev && sel ? "preview" : "in");
@@ -116,23 +115,15 @@
   function updateText() {
     const sel = rangeFor(start, end);
     $("#confirm").disabled = !sel;
-    const dep = $("#tDep"), ret = $("#tRet");
     if (sel) {
       const n = diffDays(sel[0], sel[1]);
       $("#selText").textContent = `${fmtShort(sel[0])} → ${fmtShort(sel[1])} · ${n} ${n === 1 ? "natt" : "netter"} ✨`;
-      dep.textContent = fmtShort(sel[0]) + " " + sel[0].getFullYear();
-      ret.textContent = fmtShort(sel[1]) + " " + sel[1].getFullYear();
-      dep.classList.add("set"); ret.classList.add("set");
     } else if (start) {
       $("#selText").textContent = "Velg hjemreisedag …";
-      dep.textContent = fmtShort(start) + " " + start.getFullYear();
-      ret.textContent = "Du velger ↓";
-      dep.classList.add("set"); ret.classList.remove("set");
     } else {
       $("#selText").textContent = "Ingen dato valgt ennå";
-      dep.textContent = "Du velger ↓"; ret.textContent = "—";
-      dep.classList.remove("set"); ret.classList.remove("set");
     }
+    if (sug) $("#sugBtn").classList.toggle("chosen", isSug(sel));
   }
 
   daysEl.addEventListener("click", (e) => {
@@ -155,13 +146,24 @@
   });
   daysEl.addEventListener("pointerleave", () => { if (hover) { hover = null; render(); } });
 
+  const isSug = (sel) => !!(sug && sel && +sel[0] === +sug[0] && +sel[1] === +sug[1]);
+  if (sug) {
+    $("#sugText").textContent = `${fmt(sug[0])} – ${fmt(sug[1])}`.replace(/ \d{4} –/, " –");
+    $("#sugBtn").addEventListener("click", () => {
+      start = sug[0]; end = fixed ? null : sug[1];
+      view = new Date(sug[0].getFullYear(), sug[0].getMonth(), 1);
+      render();
+      $("#confirm").click();
+    });
+  } else $("#sugBox").hidden = true;
+
   $("#prev").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
   $("#next").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
 
   /* ---------- bekreft + send ---------- */
   function message(sel, comment) {
     const n = diffDays(sel[0], sel[1]);
-    let msg = `✈️ Billetten er stemplet!\nAvreise: ${fmt(sel[0])}\nHjemreise: ${fmt(sel[1])} (${n} netter)`;
+    let msg = `✈️ Datoene er valgt${isSug(sel) ? " (forslaget ditt passer!)" : ""}\nAvreise: ${fmt(sel[0])}\nHjemreise: ${fmt(sel[1])} (${n} netter)`;
     if (comment) msg += `\n\n«${comment}»`;
     return msg;
   }
@@ -185,7 +187,7 @@
       return el;
     };
     if (C.telefon) add("💬 Send som SMS", { href: `sms:${C.telefon}?&body=${encodeURIComponent(msg)}` });
-    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Billetten er stemplet ✈️")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
+    if (C.epost) add("✉️ Send på e-post", { href: `mailto:${C.epost}?subject=${encodeURIComponent("Datoene til turen ✈️")}&body=${encodeURIComponent(msg)}` }, !!C.telefon);
     if (navigator.share) add("📤 Del svaret", { onclick: () => navigator.share({ text: msg }).catch(() => {}) }, true);
     else if (!C.telefon && !C.epost) add("📋 Kopier svaret", {
       onclick: (e) => navigator.clipboard.writeText(msg).then(() => { e.currentTarget.textContent = "Kopiert ✓"; }),
@@ -201,7 +203,7 @@
     }));
     if (C.ntfy) sends.push(() => fetch(`https://ntfy.sh/${encodeURIComponent(C.ntfy)}`, {
       method: "POST",
-      headers: { Title: "Billetten er stemplet!", Tags: "airplane,tada", Priority: "high" },
+      headers: { Title: `${C.til || "Hun"} har valgt datoer!`, Tags: "airplane,tada", Priority: "high" },
       body: msg,
     }));
     if (sends.length && fromStore) {
