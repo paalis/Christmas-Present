@@ -96,21 +96,16 @@ textarea {
 }
 textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 
-.primary, .actions a, .actions button {
+.primary {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; min-height: 52px; border-radius: 12px; border: 0;
   background: var(--accent);
   color: #fff; font-weight: 700; font-size: 1.05rem; text-decoration: none;
   transition: transform .15s, background .2s, opacity .2s;
 }
-.primary:not(:disabled):hover, .actions a:hover { background: var(--accent-dark); }
-.primary:active, .actions a:active { transform: scale(.98); }
+.primary:not(:disabled):hover { background: var(--accent-dark); }
+.primary:active { transform: scale(.98); }
 .primary:disabled { opacity: .3; cursor: default; }
-.actions { display: grid; gap: 12px; }
-.actions .alt { background: transparent; border: 1px solid var(--line); color: var(--ink); }
-.actions .alt:hover { background: var(--bg); }
-.status { margin: 0 0 12px; color: #2f7a4f; font-weight: 600; text-align: center; }
-.status:empty { display: none; }
 .link { display: block; margin: 16px auto 0; background: none; border: 0; color: var(--muted); text-decoration: underline; font-size: .9rem; }
 
 /* ---------- FORSLAG / BEKREFTELSE ---------- */
@@ -126,6 +121,23 @@ textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .comment-echo { margin: 16px 0 0; font-style: italic; color: var(--muted); }
 #done.active .confirm-card { animation: pop .5s cubic-bezier(.3,1.4,.6,1) both; }
 @keyframes pop { from { transform: scale(.94); opacity: 0; } }
+
+.or { margin: 14px 0 10px; font-size: .85rem; color: var(--muted); }
+.alts { display: grid; gap: 8px; }
+.alt-btn {
+  width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 12px;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line);
+  font-weight: 600; font-size: .98rem;
+}
+.alt-btn:not(:disabled):hover { border-color: var(--accent); background: var(--accent-soft); }
+.alt-btn:disabled { opacity: .5; cursor: default; }
+.error {
+  width: 100%; margin: 0; padding: 12px 14px; border-radius: 12px;
+  background: #fbeee9; color: #8a3b21; border: 1px solid #f0d3c7; text-align: center; font-weight: 600;
+}
+.confirm-card h2 { font-size: 1.6rem; margin-bottom: 4px; }
+.confirm-card .sub { margin-bottom: 4px; }
+.sent-note { margin: 18px 0 0 !important; color: #2f7a4f !important; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

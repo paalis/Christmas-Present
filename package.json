@@ -1,0 +1,11 @@
+{
+  "name": "hold-av-datoer",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
+  },
+  "scripts": {
+    "test": "node test/run.js"
+  }
+}

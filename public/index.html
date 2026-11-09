@@ -1,18 +1,29 @@
 <!doctype html>
-<html lang="no">
+<html lang="nb">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Når passer det?</title>
+<title>Hold av noen datoer?</title>
+<meta name="description" content="Et lite spørsmål til deg 😊">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f4f1ec">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hold av noen datoer?">
+<meta property="og:description" content="Et lite spørsmål til deg 😊">
+<meta property="og:url" content="https://hold-av-datoer.vercel.app/">
+<meta property="og:image" content="https://hold-av-datoer.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="En kalender med noen datoer markert">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script src="config.js"></script>
 </head>
 <body>
-<!-- 1. VELG DATO -->
 <section id="pick" class="screen active">
   <p class="greeting" id="greeting"></p>
 
@@ -20,11 +31,17 @@
     <span class="label">Mitt forslag</span>
     <p class="sug-dates" id="sugText"></p>
     <button class="primary" id="sugBtn">Det passer! 🙌</button>
-    <p class="sub small-sub">Passer ikke det? Velg en annen helg i kalenderen under.</p>
+    <div id="altsWrap" hidden>
+      <p class="or">eller</p>
+      <div class="alts" id="alts"></div>
+    </div>
+    <p class="sub small-sub">Passer ingen av dem? Velg selv i kalenderen under.</p>
   </div>
 
+  <p class="error" id="error" role="alert" hidden></p>
+
   <div class="card cal-card">
-    <h2 id="calTitle">Velg selv</h2>
+    <h2>Velg selv</h2>
     <p class="sub" id="calSub"></p>
     <div class="cal-nav">
       <button class="icon" id="prev" aria-label="Forrige måned">‹</button>
@@ -38,31 +55,28 @@
     <p class="selection" id="selText" aria-live="polite">Ingen dato valgt ennå</p>
     <label class="note">
       <span class="label">Kommentar (valgfritt)</span>
-      <textarea id="comment" rows="2" placeholder="F.eks. «Helst ikke tidlig fly 😴»"></textarea>
+      <textarea id="comment" rows="2" maxlength="500" placeholder="Noe jeg bør vite?"></textarea>
     </label>
     <button class="primary" id="confirm" disabled>Send datoene</button>
   </div>
 </section>
 
-<!-- 2. BEKREFTET -->
 <section id="done" class="screen">
   <div class="card confirm-card">
-    <span class="label">Da holder vi av</span>
+    <h2>Tusen takk!</h2>
+    <p class="sub">Da holder vi av</p>
     <p class="big-date" id="fDep"></p>
     <p class="to-sep">til</p>
     <p class="big-date" id="fRet"></p>
     <p class="comment-echo" id="fComment" hidden></p>
-  </div>
-
-  <div class="card">
-    <h2>Tusen takk!</h2>
-    <p class="sub" id="sendSub">Send svaret til meg, så ordner jeg resten.</p>
-    <p class="status" id="status" aria-live="polite"></p>
-    <div class="actions" id="actions"></div>
+    <p class="sub sent-note">Svaret ditt er sendt til meg ✓</p>
     <button class="link" id="change">Endre dato</button>
   </div>
 </section>
 
+<script src="config.js"></script>
+<script src="dato.js"></script>
+<script src="regler.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
