@@ -24,6 +24,7 @@ for (const f of files) {
     ok(`innhold ${f}`, hits.length === 0, JSON.stringify(hits));
   }
 }
+ok("ingen emoji eller symboltegn i public/", !files.filter((f) => /\.(html|js|css)$/.test(f)).some((f) => /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}]/u.test(fs.readFileSync(path.join(PUB, f), "utf8"))));
 ok("ingen ntfy-emne i public/", !files.some((f) => /ntfy|NTFY_TOPIC/i.test(fs.readFileSync(path.join(PUB, f), "latin1"))));
 
 /* 2. Datoer og ukedager – samme svar i flere tidssoner */

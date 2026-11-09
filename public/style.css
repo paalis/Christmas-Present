@@ -92,8 +92,12 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 var(--pad) 72px; }
   font-weight: 500; font-size: 1.05rem; letter-spacing: .02em;
   transition: transform .15s, background .2s, color .2s, opacity .2s;
 }
-.primary span { font-size: 1.3rem; transition: transform .2s; }
-.primary:not(:disabled):hover span { transform: translateX(4px); }
+.ic { width: 1.25em; height: 1.25em; flex: none; display: block; }
+.primary .ic { width: 1.5rem; height: 1.5rem; transition: transform .2s; }
+.primary:not(:disabled):hover .ic { transform: translateX(4px); }
+.icon { display: inline-grid; place-items: center; }
+.icon .ic { width: 1.1rem; height: 1.1rem; }
+.smil { display: inline-block; width: .8em; height: .8em; vertical-align: -.06em; color: var(--ink); }
 .primary:active { transform: scale(.99); }
 .primary.outline { background: transparent; color: var(--ink); }
 .primary.outline:not(:disabled):hover { background: var(--ink); color: var(--bg); }
@@ -147,7 +151,8 @@ textarea:focus { outline: none; border-bottom-width: 3px; }
 .big-date { margin: 16px 0 0; font-weight: 700; font-size: clamp(1.8rem, 8vw, 3rem); line-height: 1.05; letter-spacing: -.02em; font-variant-numeric: lining-nums; }
 .to-sep { margin: 8px 0 0; font-family: var(--serif); font-style: italic; font-size: 1.6rem; }
 .comment-echo { margin: 22px 0 0; font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--muted); }
-.sent-note { margin: 28px 0 0; font-weight: 500; }
+.sent-note { margin: 28px 0 0; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.sent-note .ic { width: 1.4rem; height: 1.4rem; }
 
 @media (min-width: 860px) {
   .hero { padding-top: 11vh; }

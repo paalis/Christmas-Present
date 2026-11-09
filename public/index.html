@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hold av noen datoer?</title>
-<meta name="description" content="Et lite spørsmål til deg 😊">
+<meta name="description" content="Et lite spørsmål til deg">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#e8dcd4">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hold av noen datoer?">
-<meta property="og:description" content="Et lite spørsmål til deg 😊">
+<meta property="og:description" content="Et lite spørsmål til deg">
 <meta property="og:url" content="https://hold-av-datoer.vercel.app/">
 <meta property="og:image" content="https://hold-av-datoer.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -24,6 +24,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-pil" viewBox="0 0 24 24"><path d="M3 12h17M14 5.5l6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-pil-v" viewBox="0 0 24 24"><path d="M21 12H4M10 5.5L3.5 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="i-hake" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M6.8 12.4l3.4 3.4 7-7.4" fill="none" stroke="var(--bg)" stroke-width="1.9"/></symbol>
+  <symbol id="i-smil" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="currentColor"/><circle cx="11" cy="13" r="2" fill="var(--bg)"/><circle cx="21" cy="13" r="2" fill="var(--bg)"/><path d="M9.5 19c1.8 2.9 4 4.2 6.5 4.2s4.7-1.3 6.5-4.2" fill="none" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round"/></symbol>
+</svg>
 
 <header class="top">
   <span class="dot-label" id="toName">Til deg</span>
@@ -42,7 +48,7 @@
     <span class="dot-label">Mitt forslag</span>
     <p class="sug-big" aria-hidden="true"><span id="sugBig"></span><span class="sug-month" id="sugMonth"></span></p>
     <p class="sug-dates" id="sugText"></p>
-    <button class="primary" id="sugBtn">Det passer <span aria-hidden="true">→</span></button>
+    <button class="primary" id="sugBtn">Det passer <svg class="ic" aria-hidden="true"><use href="#i-pil"/></svg></button>
     <div id="altsWrap" hidden>
       <p class="or">eller</p>
       <div class="alts" id="alts"></div>
@@ -56,9 +62,9 @@
     <h2>Velg selv</h2>
     <p class="sub" id="calSub"></p>
     <div class="cal-nav">
-      <button class="icon" id="prev" aria-label="Forrige måned">←</button>
+      <button class="icon" id="prev" aria-label="Forrige måned"><svg class="ic" aria-hidden="true"><use href="#i-pil-v"/></svg></button>
       <span id="monthLabel"></span>
-      <button class="icon" id="next" aria-label="Neste måned">→</button>
+      <button class="icon" id="next" aria-label="Neste måned"><svg class="ic" aria-hidden="true"><use href="#i-pil"/></svg></button>
     </div>
     <div class="cal-grid dow" aria-hidden="true">
       <span>ma</span><span>ti</span><span>on</span><span>to</span><span>fr</span><span>lø</span><span>sø</span>
@@ -70,7 +76,7 @@
       <textarea id="comment" rows="2" maxlength="500" placeholder="Noe jeg bør vite?"></textarea>
       <span class="hint" id="commentHint" hidden>Skriv en kort kommentar for å sende andre datoer enn forslaget.</span>
     </label>
-    <button class="primary outline" id="confirm" disabled>Send datoene <span aria-hidden="true">→</span></button>
+    <button class="primary outline" id="confirm" disabled>Send datoene <svg class="ic" aria-hidden="true"><use href="#i-pil"/></svg></button>
   </div>
 </section>
 
@@ -85,7 +91,7 @@
     <p class="to-sep">til</p>
     <p class="big-date" id="fRet"></p>
     <p class="comment-echo" id="fComment" hidden></p>
-    <p class="sent-note">Svaret ditt er sendt til meg ✓</p>
+    <p class="sent-note"><svg class="ic" aria-hidden="true"><use href="#i-hake"/></svg>Svaret ditt er sendt til meg</p>
     <button class="link" id="change">Endre dato</button>
   </div>
 </section>

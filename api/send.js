@@ -62,7 +62,7 @@ async function handler(req, res, deps = {}) {
 
   const name = cfg.navn || "Hun";
   const lines = [
-    kilde === "forslag" ? "Forslaget ditt passer! 🎉" : kilde === "reserve" ? "Hun valgte reservehelgen." : "Hun valgte selv i kalenderen.",
+    kilde === "forslag" ? "Forslaget ditt passer!" : kilde === "reserve" ? "Hun valgte reservehelgen." : "Hun valgte selv i kalenderen.",
     `Fra: ${D.cap(D.long(s))}`,
     `Til: ${D.cap(D.long(e))}`,
   ];

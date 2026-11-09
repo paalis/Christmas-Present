@@ -8,7 +8,8 @@
   /* ---------- tekst ---------- */
   const [tittel, ...resten] = String(C.hilsen || "Hei!").split("\n");
   $("#heroTitle").textContent = tittel;
-  $("#greeting").textContent = resten.join(" ");
+  $("#greeting").textContent = resten.join(" ") + " ";
+  if (C.smil !== false) $("#greeting").insertAdjacentHTML("beforeend", '<svg class="smil" aria-hidden="true"><use href="#i-smil"/></svg>');
   $("#toName").textContent = `Til ${C.navn || "deg"}`;
   $("#calSub").textContent = C.kalenderTekst || "Trykk på første dag, og deretter siste dag.";
 
@@ -85,7 +86,7 @@
     $("#confirm").disabled = !sel || sending || mangler;
     $("#commentHint").hidden = !mangler;
     $("#commentLabel").textContent = sel && R.trengerKommentar(sel[0], sel[1]) ? "Kommentar (må fylles ut)" : "Kommentar";
-    $("#selText").textContent = sel ? `${D.short(sel[0])} → ${D.short(sel[1])} ✨`
+    $("#selText").textContent = sel ? `${D.short(sel[0])} – ${D.short(sel[1])}`
       : start ? "Velg siste dag …" : "Ingen dato valgt ennå";
   }
 
@@ -151,7 +152,7 @@
       showDone(s, e, comment);
     } catch {
       setBusy(false);
-      showError("Oi, det gikk ikke å sende akkurat nå. Sjekk nettet og prøv igjen 🙏");
+      showError("Oi, det gikk ikke å sende akkurat nå. Sjekk nettet og prøv igjen.");
     }
   }
 
