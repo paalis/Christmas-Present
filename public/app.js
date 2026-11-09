@@ -6,7 +6,10 @@
   const LAGER = "hold-av-valg";
 
   /* ---------- tekst ---------- */
-  $("#greeting").textContent = C.hilsen || "Hei!";
+  const [tittel, ...resten] = String(C.hilsen || "Hei!").split("\n");
+  $("#heroTitle").textContent = tittel;
+  $("#greeting").textContent = resten.join(" ");
+  $("#toName").textContent = `Til ${C.navn || "deg"}`;
   $("#calSub").textContent = C.kalenderTekst || "Trykk på første dag, og deretter siste dag.";
 
   const show = (id) => {
@@ -19,6 +22,10 @@
   const sugBox = $("#sugBox");
   if (forslag) {
     $("#sugText").textContent = D.cap(D.range(forslag[0], forslag[1]));
+    const [a0, b0] = forslag;
+    const sammeMnd = a0.getUTCMonth() === b0.getUTCMonth() && a0.getUTCFullYear() === b0.getUTCFullYear();
+    $("#sugBig").textContent = sammeMnd ? `${a0.getUTCDate()}.–${b0.getUTCDate()}.` : `${D.short(a0)}–${D.short(b0)}`;
+    $("#sugMonth").textContent = sammeMnd ? D.month(a0) : String(b0.getUTCFullYear());
     $("#sugBtn").addEventListener("click", () => send(forslag[0], forslag[1], "forslag"));
     const alts = $("#alts");
     reserver.forEach(([a, b]) => {
@@ -77,7 +84,7 @@
     const mangler = !!sel && R.trengerKommentar(sel[0], sel[1]) && !$("#comment").value.trim();
     $("#confirm").disabled = !sel || sending || mangler;
     $("#commentHint").hidden = !mangler;
-    $("#commentLabel").textContent = sel && R.trengerKommentar(sel[0], sel[1]) ? "Kommentar (må fylles ut)" : "Kommentar (valgfritt)";
+    $("#commentLabel").textContent = sel && R.trengerKommentar(sel[0], sel[1]) ? "Kommentar (må fylles ut)" : "Kommentar";
     $("#selText").textContent = sel ? `${D.short(sel[0])} → ${D.short(sel[1])} ✨`
       : start ? "Velg siste dag …" : "Ingen dato valgt ennå";
   }

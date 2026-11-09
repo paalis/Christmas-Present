@@ -6,7 +6,7 @@
 <title>Hold av noen datoer?</title>
 <meta name="description" content="Et lite spørsmål til deg 😊">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#16171b">
+<meta name="theme-color" content="#e8dcd4">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hold av noen datoer?">
 <meta property="og:description" content="Et lite spørsmål til deg 😊">
@@ -17,73 +17,48 @@
 <meta property="og:image:alt" content="Hold av noen datoer?">
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='34' fill='%23141212'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Jost:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="hero">
-  <svg class="scenery" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#232733"/>
-        <stop offset=".45" stop-color="#4a4b57"/>
-        <stop offset=".68" stop-color="#8f7766"/>
-        <stop offset=".8" stop-color="#d2ad80"/>
-        <stop offset="1" stop-color="#e8c99a"/>
-      </linearGradient>
-      <radialGradient id="glow" cx=".72" cy=".72" r=".45">
-        <stop offset="0" stop-color="#ffe2b0" stop-opacity=".75"/>
-        <stop offset="1" stop-color="#ffe2b0" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a7280"/><stop offset="1" stop-color="#b39a86"/></linearGradient>
-      <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b4b58"/><stop offset="1" stop-color="#6e6468"/></linearGradient>
-      <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2c35"/><stop offset="1" stop-color="#1d1e23"/></linearGradient>
-      <filter id="mist" x="-30%" y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="22"/></filter>
-    </defs>
-    <rect width="1200" height="700" fill="url(#sky)"/>
-    <rect width="1200" height="700" fill="url(#glow)"/>
-    <path d="M0 470 C80 440 130 400 200 410 C270 420 300 360 380 330 C440 308 480 360 540 375 C610 392 650 330 720 300 C790 270 840 330 900 350 C960 370 1010 320 1080 330 C1140 338 1170 360 1200 365 L1200 700 L0 700Z" fill="url(#r1)" opacity=".75"/>
-    <ellipse cx="320" cy="470" rx="460" ry="34" fill="#f1e2cc" opacity=".45" filter="url(#mist)"/>
-    <ellipse cx="930" cy="445" rx="420" ry="30" fill="#f1e2cc" opacity=".4" filter="url(#mist)"/>
-    <path d="M0 530 C90 500 150 470 230 478 C320 488 360 440 440 430 C520 420 560 470 640 482 C720 494 780 440 860 432 C950 424 1000 480 1080 486 C1140 490 1170 470 1200 466 L1200 700 L0 700Z" fill="url(#r2)"/>
-    <ellipse cx="600" cy="555" rx="560" ry="34" fill="#e6d9c8" opacity=".32" filter="url(#mist)"/>
-    <path d="M0 600 C110 572 200 560 300 575 C400 590 470 552 560 548 C660 544 720 585 820 590 C920 595 990 560 1080 562 C1140 563 1180 575 1200 580 L1200 700 L0 700Z" fill="url(#r3)"/>
-  </svg>
-  <div class="hero-inner">
-    <div class="frame">
-      <span class="eyebrow">Et lite spørsmål</span>
-      <p class="greeting" id="greeting"></p>
-    </div>
-  </div>
+<header class="top">
+  <span class="dot-label" id="toName">Til deg</span>
+  <span class="dot-label right">Et lite spørsmål</span>
 </header>
 
 <main>
 <section id="pick" class="screen active">
-  <div class="card suggestion" id="sugBox">
-    <span class="label">Mitt forslag</span>
+  <div class="hero">
+    <h1 class="giant" id="heroTitle"></h1>
+    <p class="lede" id="greeting"></p>
+    <span class="vertical" aria-hidden="true">Hold av<i class="dot"></i></span>
+  </div>
+
+  <div class="block suggestion" id="sugBox">
+    <span class="dot-label">Mitt forslag</span>
+    <p class="sug-big" aria-hidden="true"><span id="sugBig"></span><span class="sug-month" id="sugMonth"></span></p>
     <p class="sug-dates" id="sugText"></p>
-    <button class="primary" id="sugBtn">Det passer!</button>
+    <button class="primary" id="sugBtn">Det passer <span aria-hidden="true">→</span></button>
     <div id="altsWrap" hidden>
       <p class="or">eller</p>
       <div class="alts" id="alts"></div>
     </div>
-    <p class="sub small-sub">Passer det ikke? Velg selv i kalenderen under, og skriv en liten kommentar.</p>
   </div>
 
   <p class="error" id="error" role="alert" hidden></p>
 
-  <div class="card cal-card">
-    <span class="label">Eller</span>
+  <div class="block cal-card">
+    <span class="dot-label">Passer det ikke?</span>
     <h2>Velg selv</h2>
     <p class="sub" id="calSub"></p>
     <div class="cal-nav">
-      <button class="icon" id="prev" aria-label="Forrige måned">‹</button>
+      <button class="icon" id="prev" aria-label="Forrige måned">←</button>
       <span id="monthLabel"></span>
-      <button class="icon" id="next" aria-label="Neste måned">›</button>
+      <button class="icon" id="next" aria-label="Neste måned">→</button>
     </div>
     <div class="cal-grid dow" aria-hidden="true">
       <span>ma</span><span>ti</span><span>on</span><span>to</span><span>fr</span><span>lø</span><span>sø</span>
@@ -91,24 +66,26 @@
     <div class="cal-grid" id="days" role="grid"></div>
     <p class="selection" id="selText" aria-live="polite">Ingen dato valgt ennå</p>
     <label class="note">
-      <span class="label" id="commentLabel">Kommentar (valgfritt)</span>
+      <span class="dot-label" id="commentLabel">Kommentar</span>
       <textarea id="comment" rows="2" maxlength="500" placeholder="Noe jeg bør vite?"></textarea>
       <span class="hint" id="commentHint" hidden>Skriv en kort kommentar for å sende andre datoer enn forslaget.</span>
     </label>
-    <button class="primary" id="confirm" disabled>Send datoene</button>
+    <button class="primary outline" id="confirm" disabled>Send datoene <span aria-hidden="true">→</span></button>
   </div>
 </section>
 
 <section id="done" class="screen">
-  <div class="card confirm-card">
-    <span class="label">Bekreftet</span>
-    <h2>Tusen takk!</h2>
-    <p class="sub">Da holder vi av</p>
+  <div class="hero">
+    <h2 class="giant">Tusen takk!</h2>
+    <span class="vertical" aria-hidden="true">Holdt av<i class="dot"></i></span>
+  </div>
+  <div class="block confirm-card">
+    <span class="dot-label">Da holder vi av</span>
     <p class="big-date" id="fDep"></p>
     <p class="to-sep">til</p>
     <p class="big-date" id="fRet"></p>
     <p class="comment-echo" id="fComment" hidden></p>
-    <p class="sub sent-note">Svaret ditt er sendt til meg ✓</p>
+    <p class="sent-note">Svaret ditt er sendt til meg ✓</p>
     <button class="link" id="change">Endre dato</button>
   </div>
 </section>
