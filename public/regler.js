@@ -33,6 +33,10 @@
     // Et valg er gyldig hvis det er et av forslagene, eller følger kalenderreglene.
     const gyldig = (s, e) => !!(s && e && (erFerdig(s, e) || (kanStarte(s) && kanSlutte(s, e))));
 
-    return { min, max, ledig, kanStarte, kanSlutte, gyldig, ferdige };
+    // Kommentar kreves for alt annet enn hovedforslaget (hvis slått på).
+    const hoved = ferdige[0];
+    const trengerKommentar = (s, e) => !!cfg.kommentarPaakrevd && !(hoved && s && e && +hoved[0] === +s && +hoved[1] === +e);
+
+    return { min, max, ledig, kanStarte, kanSlutte, gyldig, ferdige, trengerKommentar };
   };
 });

@@ -90,6 +90,12 @@ async function apiTests() {
     ok("begge feiler → 502 (hun får prøve igjen)", r.status === 502);
     r = await call({ ...good, start: "2027-01-22", end: "2027-01-25" }, mk().deps);
     ok("fredag-start avvises (422)", r.status === 422);
+    m = mk(); r = await call({ ...good, comment: "" }, m.deps);
+    ok("hovedforslaget uten kommentar → 200", r.status === 200 && m.log.notify.length === 1);
+    m = mk(); r = await call({ ...good, start: "2027-01-14", end: "2027-01-17", comment: "  ", kilde: "kalender" }, m.deps);
+    ok("andre datoer uten kommentar avvises (422), ingen varsel", r.status === 422 && r.json.error === "kommentar" && m.log.notify.length === 0);
+    m = mk(); r = await call({ ...good, start: "2027-01-14", end: "2027-01-17", comment: "Jobb den 21.", kilde: "kalender" }, m.deps);
+    ok("andre datoer med kommentar → 200", r.status === 200 && m.log.notify.length === 1);
     r = await call({ ...good, id: "x" }, mk().deps);
     ok("ugyldig id avvises (422)", r.status === 422);
     r = await call(good, mk().deps, "GET");
@@ -126,7 +132,7 @@ async function browserTests() {
       const enabled = await p.$$eval("#days button.day:not(:disabled)", (e) => e.map((x) => x.dataset.date));
       ok(`[${tz}] bare torsdager kan velges i januar`, JSON.stringify(enabled) === '["2027-01-07","2027-01-14","2027-01-21","2027-01-28"]', JSON.stringify(enabled));
       ok(`[${tz}] forslagstekst`, (await p.textContent("#sugText")) === "Torsdag 21. januar – søndag 24. januar 2027");
-      ok(`[${tz}] reserveknapp`, (await p.textContent(".alt-btn")) === "Torsdag 7. januar – søndag 10. januar 2027");
+      ok(`[${tz}] ingen reserveknapp`, (await p.$$(".alt-btn")).length === 0 && await p.isHidden("#altsWrap"));
 
       await p.click("#sugBtn"); await p.click("#sugBtn", { force: true }).catch(() => {});
       await p.waitForSelector("#error:not([hidden])");
@@ -139,12 +145,15 @@ async function browserTests() {
 
       await p.reload(); ok(`[${tz}] husker valget ved ny visning`, await p.isVisible("#done.active"));
       await p.click("#change");
-      await p.click(".alt-btn"); await p.waitForSelector("#done.active");
-      ok(`[${tz}] reservehelg med ett trykk`, reqs.at(-1).start === "2027-01-07" && reqs.at(-1).kilde === "reserve" && reqs.at(-1).id !== reqs[0].id);
-
-      await p.click("#change");
+      await p.fill("#comment", "");
       await p.click('[data-date="2027-01-14"]'); await p.click('[data-date="2027-01-18"]');
-      await p.fill("#comment", "Gleder meg"); await p.click("#confirm"); await p.waitForSelector("#done.active");
+      ok(`[${tz}] andre datoer: knapp låst uten kommentar`, await p.isDisabled("#confirm") && await p.isVisible("#commentHint"));
+      ok(`[${tz}] etikett sier «må fylles ut»`, (await p.textContent("#commentLabel")) === "Kommentar (må fylles ut)");
+      await p.fill("#comment", "   ");
+      ok(`[${tz}] bare mellomrom teller ikke`, await p.isDisabled("#confirm"));
+      await p.fill("#comment", "Gleder meg");
+      ok(`[${tz}] knapp åpnes med kommentar`, await p.isEnabled("#confirm") && await p.isHidden("#commentHint"));
+      await p.click("#confirm"); await p.waitForSelector("#done.active");
       const last = reqs.at(-1);
       ok(`[${tz}] egen kalendervalg to–ma sendes riktig`, last.start === "2027-01-14" && last.end === "2027-01-18" && last.comment === "Gleder meg");
 

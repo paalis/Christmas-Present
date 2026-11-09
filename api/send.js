@@ -51,6 +51,9 @@ async function handler(req, res, deps = {}) {
   if (!ID_RE.test(id) || !s || !e || !lagRegler(cfg, now).gyldig(s, e)) {
     return reply(res, 422, { ok: false, error: "ugyldig" });
   }
+  if (lagRegler(cfg, now).trengerKommentar(s, e) && !comment.trim()) {
+    return reply(res, 422, { ok: false, error: "kommentar" });
+  }
 
   const path = `svar/${id}.json`;
   // Allerede mottatt (f.eks. dobbelttrykk eller nytt forsøk etter tidsavbrudd)?

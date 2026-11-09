@@ -10,9 +10,10 @@
   forslag: ["2027-01-21", "2027-01-24"],
 
   // Reserver hun kan velge med ett trykk: liste av [første dag, siste dag]
-  reserver: [
-    ["2027-01-07", "2027-01-10"],
-  ],
+  reserver: [],
+
+  // Må hun skrive en kommentar når hun velger andre datoer enn forslaget?
+  kommentarPaakrevd: true,
 
   // Egne valg i kalenderen
   kalenderTekst: "Trykk på en torsdag (fra kvelden), og så på søndag eller mandag.",

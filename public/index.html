@@ -35,7 +35,7 @@
       <p class="or">eller</p>
       <div class="alts" id="alts"></div>
     </div>
-    <p class="sub small-sub">Passer ingen av dem? Velg selv i kalenderen under.</p>
+    <p class="sub small-sub">Passer det ikke? Velg selv i kalenderen under, og skriv en liten kommentar.</p>
   </div>
 
   <p class="error" id="error" role="alert" hidden></p>
@@ -54,8 +54,9 @@
     <div class="cal-grid" id="days" role="grid"></div>
     <p class="selection" id="selText" aria-live="polite">Ingen dato valgt ennå</p>
     <label class="note">
-      <span class="label">Kommentar (valgfritt)</span>
+      <span class="label" id="commentLabel">Kommentar (valgfritt)</span>
       <textarea id="comment" rows="2" maxlength="500" placeholder="Noe jeg bør vite?"></textarea>
+      <span class="hint" id="commentHint" hidden>Skriv en kort kommentar for å sende andre datoer enn forslaget.</span>
     </label>
     <button class="primary" id="confirm" disabled>Send datoene</button>
   </div>

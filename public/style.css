@@ -89,6 +89,8 @@ button { font: inherit; cursor: pointer; }
 
 .note { display: block; margin-bottom: 16px; }
 .note .label { margin-bottom: 6px; }
+.hint { display: block; margin-top: 6px; font-size: .85rem; color: var(--muted); }
+[hidden] { display: none !important; }
 textarea {
   width: 100%; resize: vertical; border-radius: 10px; padding: 10px 12px;
   background: var(--bg); color: var(--ink); border: 1px solid var(--line);

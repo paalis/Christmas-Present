@@ -74,7 +74,10 @@
     }
     daysEl.replaceChildren(frag);
 
-    $("#confirm").disabled = !sel || sending;
+    const mangler = !!sel && R.trengerKommentar(sel[0], sel[1]) && !$("#comment").value.trim();
+    $("#confirm").disabled = !sel || sending || mangler;
+    $("#commentHint").hidden = !mangler;
+    $("#commentLabel").textContent = sel && R.trengerKommentar(sel[0], sel[1]) ? "Kommentar (må fylles ut)" : "Kommentar (valgfritt)";
     $("#selText").textContent = sel ? `${D.short(sel[0])} → ${D.short(sel[1])} ✨`
       : start ? "Velg siste dag …" : "Ingen dato valgt ennå";
   }
@@ -101,6 +104,7 @@
   $("#prev").addEventListener("click", () => { view = D.ym(view.getUTCFullYear(), view.getUTCMonth() - 1); render(); });
   $("#next").addEventListener("click", () => { view = D.ym(view.getUTCFullYear(), view.getUTCMonth() + 1); render(); });
   $("#confirm").addEventListener("click", () => { if (start && end) send(start, end, "kalender"); });
+  $("#comment").addEventListener("input", () => render());
 
   /* ---------- sending ---------- */
   let sending = false;
@@ -120,8 +124,8 @@
   function clearError() { $("#error").hidden = true; }
 
   async function send(s, e, kilde) {
-    if (sending || !R.gyldig(s, e)) return;
     const comment = $("#comment").value.trim().slice(0, 500);
+    if (sending || !R.gyldig(s, e) || (R.trengerKommentar(s, e) && !comment)) return;
     const key = `${D.iso(s)}|${D.iso(e)}|${comment}`;
     if (!pending || pending.key !== key) pending = { key, id: newId() };
     const btn = kilde === "forslag" ? $("#sugBtn") : kilde === "kalender" ? $("#confirm") : null;
